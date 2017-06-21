@@ -38,8 +38,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public ViewResolver getDefaultViewResolver() {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver(springMvcViewPrefix, springMvcViewSuffix);
-        resolver.getAttributesMap().put("webStaticResourceServer", webStaticResourceServer);
-        resolver.getAttributesMap().put("webDynamicResourceServer", webDynamicResourceServer);
+        resolver.getAttributesMap().put("staticServer", webStaticResourceServer);
+        resolver.getAttributesMap().put("dynamicServer", webDynamicResourceServer);
         resolver.getAttributesMap().put("webTitle", webTitle);
         return resolver;
     }

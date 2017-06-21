@@ -1,6 +1,5 @@
 package com.critc.plat.core.aop;
 
-import com.critc.plat.core.annotation.TxTransactionAnnotationParser;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
@@ -39,7 +38,7 @@ public class TransactionAspect {
         // source.addTransactionalMethod("*Tx", transactionAttribute);
 
         // 标记了@Tx的方法会启动事务处理
-        AnnotationTransactionAttributeSource txAnnotationTransactionAttributeSource = new AnnotationTransactionAttributeSource(new TxTransactionAnnotationParser());
+        AnnotationTransactionAttributeSource txAnnotationTransactionAttributeSource = new AnnotationTransactionAttributeSource(new TransactionalAnnotationParser());
 
         NameMatchTransactionAttributeSource nameMatchTransactionAttributeSource = new NameMatchTransactionAttributeSource();
         RuleBasedTransactionAttribute transactionAttribute = new RuleBasedTransactionAttribute();
