@@ -1,8 +1,10 @@
-package com.critc.plat.sys.dao;
+package com.critc.plat.sys.dao.oracle;
 
 import com.critc.plat.core.dao.BaseDao;
+import com.critc.plat.sys.dao.ISysRoleDao;
 import com.critc.plat.sys.model.SysRole;
 import com.critc.plat.util.model.ComboboxVO;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.List;
  * Date  2017/6/10.
  */
 @Repository
-public class SysRoleDao extends BaseDao<SysRole, SysRole> {
+@Profile("prod")
+public class SysRoleDao extends BaseDao<SysRole, SysRole> implements ISysRoleDao {
 
     /**
      * 新增
@@ -20,6 +23,7 @@ public class SysRoleDao extends BaseDao<SysRole, SysRole> {
      * @param sysRole
      * @return
      */
+    @Override
     public int add(SysRole sysRole) {
         String sql = "insert into t_sys_role(id,name,description,display_order,created_by,created_at)" +
                 " values(seq_t_sys_role.nextval,:name,:description,:displayOrder,:createdBy,sysdate)";
@@ -32,6 +36,7 @@ public class SysRoleDao extends BaseDao<SysRole, SysRole> {
      * @param sysRole
      * @return
      */
+    @Override
     public int update(SysRole sysRole) {
         String sql = "update t_sys_role set name=:name,description=:description,display_order=:displayOrder,last_modified_by=:lastModifiedBy,last_modified_at=sysdate where id=:id";
         return update(sql, sysRole);
@@ -43,11 +48,13 @@ public class SysRoleDao extends BaseDao<SysRole, SysRole> {
      * @param id
      * @return
      */
+    @Override
     public int delete(int id) {
         String sql = "delete from t_sys_role where id=? ";
         return delete(sql, id);
     }
 
+    @Override
     public SysRole get(int id) {
         String sql = "select * from t_sys_role where id=? ";
         return get(sql, id);
@@ -58,6 +65,7 @@ public class SysRoleDao extends BaseDao<SysRole, SysRole> {
      *
      * @return
      */
+    @Override
     public List<SysRole> list() {
         String sql = "select t.* from t_sys_role t order by display_order asc ";
         return list(sql);
@@ -68,6 +76,7 @@ public class SysRoleDao extends BaseDao<SysRole, SysRole> {
      *
      * @return
      */
+    @Override
     public List<ComboboxVO> listCombo() {
         String sql = "select id value,name content from t_sys_role where 1=1 order by id ";
         return listCombobox(sql);

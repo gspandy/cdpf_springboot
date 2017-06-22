@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -45,27 +46,34 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * json转换
+     * 文件上传
      *
      * @return
      */
     @Bean
-    public HttpMessageConverter getMappingJackson2HttpMessageConverter() {
+    public MultipartResolver multipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding("utf-8");
+        commonsMultipartResolver.setMaxUploadSize(10485760000L);
+        commonsMultipartResolver.setMaxInMemorySize(40960);
+
+        return commonsMultipartResolver;
+    }
+
+
+    /**
+     * json转换
+     *
+     * @return
+     */
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        super.extendMessageConverters(converters);
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         List<MediaType> supportedMediaTypes = new ArrayList<>();
         supportedMediaTypes.add(MediaType.APPLICATION_JSON);
         supportedMediaTypes.add(MediaType.TEXT_HTML);
         converter.setSupportedMediaTypes(supportedMediaTypes);
-        return converter;
-    }
-
-    /**
-     * TODO 设置支持上传文件
-     *
-     * @return
-     */
-    @Bean
-    public CommonsMultipartResolver multipartResolver() {
-        return new CommonsMultipartResolver();
+        converters.add(converter);
     }
 }

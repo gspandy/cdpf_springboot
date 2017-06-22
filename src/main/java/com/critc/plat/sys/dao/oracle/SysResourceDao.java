@@ -1,7 +1,9 @@
-package com.critc.plat.sys.dao;
+package com.critc.plat.sys.dao.oracle;
 
 import com.critc.plat.core.dao.BaseDao;
+import com.critc.plat.sys.dao.ISysResourceDao;
 import com.critc.plat.sys.model.SysResource;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +13,8 @@ import java.util.List;
  * Date  2017/6/10.
  */
 @Repository
-public class SysResourceDao extends BaseDao<SysResource, SysResource> {
+@Profile("prod")
+public class SysResourceDao extends BaseDao<SysResource, SysResource> implements ISysResourceDao {
 
     /**
      * 新增
@@ -19,6 +22,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param sysResource
      * @return
      */
+    @Override
     public int add(SysResource sysResource) {
         String sql = "insert into t_sys_resource(id,name,code,parent_id,url,target,iconImg,display_order,type,description)" +
                 " values(seq_t_sys_resource.nextval,:name,:code,:parentId,:url,:target,:iconImg,:displayOrder,:type,:description)";
@@ -31,6 +35,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param sysResource
      * @return
      */
+    @Override
     public int update(SysResource sysResource) {
         String sql = "update t_sys_resource set name=:name,code=:code,url=:url,parent_id=:parentId,target=:target,iconImg=:iconImg," +
                 "display_order=:displayOrder,type=:type,description=:description where id=:id";
@@ -43,16 +48,19 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param id
      * @return
      */
+    @Override
     public int delete(int id) {
         String sql = "delete from t_sys_resource where id=?";
         return delete(sql, id);
     }
+
     /**
      * 按上级id删除，删除对应的功能
      *
      * @param id
      * @return
      */
+    @Override
     public int deleteByParentId(int id) {
         String sql = "delete from t_sys_resource where parent_id=?";
         return delete(sql, id);
@@ -64,6 +72,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param id
      * @return
      */
+    @Override
     public SysResource get(int id) {
         String sql = "select t.*,(select name from t_sys_resource where id=t.parent_id) parent_name from t_sys_resource t where id=?";
         return get(sql, id);
@@ -74,6 +83,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      *
      * @return
      */
+    @Override
     public List<SysResource> list() {
         String sql = "select m.*,(select count(*) from t_sys_resource where parent_id=m.id) cnt from t_sys_resource m order by parent_id, display_order";
         return list(sql);
@@ -84,6 +94,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      *
      * @return
      */
+    @Override
     public List<SysResource> listByType(int type) {
         String sql = "select m.*,(select count(*) from t_sys_resource where parent_id=m.id) cnt from t_sys_resource m where type =? order by parent_id, display_order";
         return list(sql, type);
@@ -95,6 +106,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param id
      * @return
      */
+    @Override
     public int getChildCount(int id) {
         String sql = "select count(*) from t_sys_resource where parent_id=? and type=1";
         return listCount(sql, id);
@@ -106,7 +118,8 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param parentId
      * @return
      */
-    public List<SysResource> listByParentId(int parentId ){
+    @Override
+    public List<SysResource> listByParentId(int parentId) {
         String sql = "select m.*,(select count(*) from t_sys_resource where parent_id=m.id) cnt from t_sys_resource m where parent_id=? order by display_order";
         return list(sql, parentId);
     }
@@ -117,6 +130,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param roleId
      * @return
      */
+    @Override
     public List<SysResource> listByRoleId(int roleId) {
         String sql = "select m.* from t_sys_resource m";
         sql += " where id in (select  module_id from t_sys_rolemodule where role_id =?)";
@@ -130,6 +144,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param code
      * @return
      */
+    @Override
     public SysResource getByModuleCode(String code) {
         String sql = "select * from t_sys_resource where code=?";
         return get(sql, code);
@@ -141,6 +156,7 @@ public class SysResourceDao extends BaseDao<SysResource, SysResource> {
      * @param url
      * @return
      */
+    @Override
     public SysResource getByUrl(String url) {
         String sql = "select m.* from t_sys_resource m where url=? ";
         return get(sql, url);
