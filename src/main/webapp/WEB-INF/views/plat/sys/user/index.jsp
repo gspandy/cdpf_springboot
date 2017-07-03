@@ -2,7 +2,7 @@
 <%@ include file="../../common/taglib.jsp" %>
 
 <head>
-    <title>用户管理</title>
+<title>用户管理</title>
 </head>
 
 <body>
@@ -72,46 +72,46 @@
         <div class="col-xs-12">
             <table id="simple-table" class="table table-striped table-bordered table-hover">
                 <thead>
-                <tr>
-                    <th width=40>#</th>
-                    <th width=120>账号</th>
-                    <th width="120">姓名</th>
-                    <th width="120">角色</th>
-                    <th width="120">创建人</th>
-                    <th width="140">创建时间</th>
-                    <th width="80">状态</th>
-                    <th width="80">登录记录</th>
-                    <th width="160">操作</th>
-                </tr>
+                    <tr>
+                        <th width=40>#</th>
+                        <th width=120>账号</th>
+                        <th width="120">姓名</th>
+                        <th width="120">角色</th>
+                        <th width="120">创建人</th>
+                        <th width="140">创建时间</th>
+                        <th width="80">状态</th>
+                        <th width="80">登录记录</th>
+                        <th width="160">操作</th>
+                    </tr>
                 </thead>
 
                 <tbody>
-                <c:forEach items="${list }" var="sysUser" varStatus="st">
-                    <tr>
-                        <td>${st.index+1 }</td>
-                        <td>${sysUser.username }</td>
-                        <td>${sysUser.realname }</td>
-                        <td>${sysUser.roleName }</td>
-                        <td>${sysUser.createdBy }</td>
-                        <td><fmt:formatDate value="${sysUser.createdAt }"
-                                            pattern="yyyy-MM-dd HH:mm"/></td>
-                        <td>${critc:getUserStatus(sysUser.status)}</td>
-                        <td>
-                            <a href="javascript:viewLoginHis('${sysUser.id}','${sysUser.username}')">查看 </a>
-                        </td>
-                        <td><c:if test="${critc:isP('SysUserUpdate')}">
-                            <a href="toUpdate.htm?id=${sysUser.id }&backUrl=${backUrl}"> 修改 </a>
-                        </c:if> <c:if test="${critc:isP('SysUserDelete')}">
-                            <a href="javascript:delUser(${sysUser.id });"> 删除 </a>
-                        </c:if> <c:if test="${critc:isP('SysUserLock')&&sysUser.status==1}">
-                            <a href="javascript:lock(${sysUser.id });">锁定 </a>
-                        </c:if> <c:if test="${critc:isP('SysUserUnlock')&&sysUser.status==2}">
-                            <a href="javascript:unlock(${sysUser.id });">解锁 </a>
-                        </c:if> <c:if test="${critc:isP('SysUserResetPass')}">
-                            <a href="javascript:resetPass(${sysUser.id });">重置密码 </a>
-                        </c:if></td>
-                    </tr>
-                </c:forEach>
+                    <c:forEach items="${list }" var="sysUser" varStatus="st">
+                        <tr>
+                            <td>${st.index+1 }</td>
+                            <td>${sysUser.username }</td>
+                            <td>${sysUser.realname }</td>
+                            <td>${sysUser.roleName }</td>
+                            <td>${sysUser.createdBy }</td>
+                            <td><fmt:formatDate value="${sysUser.createdAt }"
+                                                pattern="yyyy-MM-dd HH:mm"/></td>
+                            <td>${critc:getUserStatus(sysUser.status)}</td>
+                            <td>
+                                <a href="javascript:viewLoginHis('${sysUser.id}','${sysUser.username}')">查看 </a>
+                            </td>
+                            <td><c:if test="${critc:isP('SysUserUpdate')}">
+                                <a href="toUpdate.htm?id=${sysUser.id }&backUrl=${backUrl}"> 修改 </a>
+                            </c:if> <c:if test="${critc:isP('SysUserDelete')}">
+                                <a href="javascript:delUser(${sysUser.id });"> 删除 </a>
+                            </c:if> <c:if test="${critc:isP('SysUserLock')&&sysUser.status==1}">
+                                <a href="javascript:lock(${sysUser.id });">锁定 </a>
+                            </c:if> <c:if test="${critc:isP('SysUserUnlock')&&sysUser.status==2}">
+                                <a href="javascript:unlock(${sysUser.id });">解锁 </a>
+                            </c:if> <c:if test="${critc:isP('SysUserResetPass')}">
+                                <a href="javascript:resetPass(${sysUser.id });">重置密码 </a>
+                            </c:if></td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>

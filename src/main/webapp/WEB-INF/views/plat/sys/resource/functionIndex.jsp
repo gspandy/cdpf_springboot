@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ include file="../../common/taglib.jsp" %>
 <head>
-    <title>功能管理</title>
+<title>功能管理</title>
 </head>
 
 <body>
@@ -56,32 +56,34 @@
         <div class="col-xs-12">
             <table id="simple-table" class="table table-striped table-bordered table-hover">
                 <thead>
-                <tr>
-                    <th width=40>#</th>
-                    <th width=120>资源名称</th>
-                    <th width="120">资源代码</th>
-                    <th>资源链接</th>
-                    <th style="text-align: center;">排序</th>
-                    <th width=160>操作</th>
-                </tr>
+                    <tr>
+                        <th width=40>#</th>
+                        <th width=120>资源名称</th>
+                        <th width="120">资源代码</th>
+                        <th>资源链接</th>
+                        <th style="text-align: center;">排序</th>
+                        <th width=160>操作</th>
+                    </tr>
                 </thead>
 
                 <tbody>
-                <c:forEach items="${list}" var="resource" varStatus="st">
-                    <tr>
-                        <td>${st.index+1 }</td>
-                        <td>${resource.name}</td>
-                        <td>${resource.code}</td>
-                        <td>${resource.url}</td>
-                        <td>${resource.displayOrder}</td>
-                        <td><c:if test="${critc:isP('SysResourceUpdate')}">
-                            <a href="toUpdate.htm?id=${resource.id}&backUrl=${backUrl}"> 修改</i>
-                            </a>
-                        </c:if> <c:if test="${critc:isP('SysResourceDelete')}">
-                            <a href="javascript:delFunction(${resource.id });"> 删除 </a>
-                        </c:if></td>
-                    </tr>
-                </c:forEach>
+                    <c:forEach items="${list}" var="resource" varStatus="st">
+                        <tr>
+                            <td>${st.index+1 }</td>
+                            <td>${resource.name}</td>
+                            <td>${resource.code}</td>
+                            <td>${resource.url}</td>
+                            <td>${resource.displayOrder}</td>
+                            <td>
+                                <c:if test="${critc:isP('SysResourceUpdate')}">
+                                    <a href="toUpdate.htm?id=${resource.id}&backUrl=${backUrl}">修改</i> </a>
+                                </c:if>
+                                <c:if test="${critc:isP('SysResourceDelete')}">
+                                    <a href="javascript:delFunction(${resource.id });"> 删除 </a>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
             </table>
         </div>
@@ -90,29 +92,28 @@
 </div>
 
 <script type="text/javascript">
-				$(function() {
-					$("#btnSearch").bind('click', searchFunction);
-					$("#btnAdd").bind('click', addFunction);
-				})
+    $(function () {
+        $("#btnSearch").bind('click', searchFunction);
+        $("#btnAdd").bind('click', addFunction);
+    })
 
-				// 查询方法
-				var searchFunction = function() {
-					var url = "functionIndex.htm?id=${resource.id}";
-					window.location = encodeURI(url);
-				}
-				// 删除
-				var delFunction = function(id) {
-					bootbox.confirm("你确定要删除该功能吗？", function(result) {
-						if (result) {
-							window.location = "delete.htm?id=" + id + "&backUrl=${backUrl}";
-						}
-					})
-				}
-				//新增
-				var addFunction = function(id) {
-					window.location = 'toAdd.htm?parentId=${resource.id}&backUrl=${backUrl }';
-				}
-
+    // 查询方法
+    var searchFunction = function () {
+        var url = "functionIndex.htm?id=${resource.id}";
+        window.location = encodeURI(url);
+    }
+    // 删除
+    var delFunction = function (id) {
+        bootbox.confirm("你确定要删除该功能吗？", function (result) {
+            if (result) {
+                window.location = "delete.htm?id=" + id + "&backUrl=${backUrl}";
+            }
+        })
+    }
+    //新增
+    var addFunction = function (id) {
+        window.location = 'toAdd.htm?parentId=${resource.id}&backUrl=${backUrl }';
+    }
 
 
 </script>

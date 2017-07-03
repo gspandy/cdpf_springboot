@@ -1,5 +1,6 @@
 package com.critc.plat;
 
+import com.critc.plat.core.pub.PubConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -57,6 +58,14 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
         supportedMediaTypes.add(MediaType.TEXT_HTML);
         converter.setSupportedMediaTypes(supportedMediaTypes);
         return converter;
+    }
+
+    @Bean
+    public PubConfig pubConfig() {
+        PubConfig pubConfig = new PubConfig();
+        pubConfig.setDynamicServer(webDynamicResourceServer);
+        pubConfig.setStaticServer(webStaticResourceServer);
+        return pubConfig;
     }
 
     /**

@@ -80,43 +80,6 @@ public class DruidConfiguration {
     }
 
     /**
-     * Druid的StatFilter
-     * <p>
-     * 配置Filter
-     *
-     * @author 单红宇(365384722)
-     * @myblog http://blog.csdn.net/catoop/
-     * @create 2016年3月17日
-     */
-//    @WebFilter(filterName = "DruidWebStatFilter", urlPatterns = "/*",
-//            initParams = {
-//                    @WebInitParam(name = "exclusions", value = "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*")// 忽略资源
-//            })
-//    public static class DruidStatFilter extends WebStatFilter {
-//    }
-
-    /**
-     * StatViewServlet
-     * <p>
-     * 配置监控统计功能
-     *
-     * @author 单红宇(365384722)
-     * @myblog http://blog.csdn.net/catoop/
-     * @create 2016年3月17日
-     */
-//    @WebServlet(urlPatterns = "/druid/*",
-//            initParams = {
-////                @WebInitParam(name = "allow", value = "192.168.16.110,127.0.0.1"),// IP白名单 (没有配置或者为空，则允许所有访问)
-////                @WebInitParam(name = "deny", value = "192.168.16.111"),// IP黑名单 (存在共同时，deny优先于allow)
-////                @WebInitParam(name = "loginUsername", value = "druid"),// 用户名
-////                @WebInitParam(name = "loginPassword", value = "druid"),// 密码
-//                    @WebInitParam(name = "resetEnable", value = "false")// 启用HTML页面上的“Reset All”功能
-//            })
-//    public static class DruidStatViewServlet extends StatViewServlet {
-//
-//    }
-
-    /**
      * 注册一个Druid内置的StatViewServlet，用于展示Druid的统计信息。
      *
      * @return
@@ -147,7 +110,6 @@ public class DruidConfiguration {
      */
     @Bean
     public FilterRegistrationBean webStatFilter() {
-
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new WebStatFilter());
 
         //添加过滤规则.
@@ -175,14 +137,14 @@ public class DruidConfiguration {
     @Bean
     public JdkRegexpMethodPointcut druidStatPointcut() {
         JdkRegexpMethodPointcut druidStatPointcut = new JdkRegexpMethodPointcut();
-        String patterns = "org.mose.*..service.*";
+        String patterns = "com.critc.plat.*.service.*";
         druidStatPointcut.setPatterns(patterns);
         return druidStatPointcut;
     }
 
     @Bean
-    public Advisor druidStatAdvisor() {
-        return new DefaultPointcutAdvisor(druidStatPointcut(), druidStatInterceptor());
+    public Advisor druidStatAdvisor(JdkRegexpMethodPointcut druidStatPointcut, DruidStatInterceptor druidStatInterceptor) {
+        return new DefaultPointcutAdvisor(druidStatPointcut, druidStatInterceptor);
     }
 }
 
