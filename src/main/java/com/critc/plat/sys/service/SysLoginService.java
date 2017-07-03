@@ -1,6 +1,6 @@
 package com.critc.plat.sys.service;
 
-import com.critc.plat.sys.dao.SysUserLoginDao;
+import com.critc.plat.sys.dao.ISysUserLoginDao;
 import com.critc.plat.sys.model.SysUserLogin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SysLoginService {
     @Autowired
-    private SysUserLoginDao sysUserLoginDao;
+    private ISysUserLoginDao sysUserLoginDao;
 
     /**
      * 登录时新增登录信息

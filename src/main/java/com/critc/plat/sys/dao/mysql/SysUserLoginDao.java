@@ -1,9 +1,11 @@
-package com.critc.plat.sys.dao;
+package com.critc.plat.sys.dao.mysql;
 
 import com.critc.plat.core.dao.BaseDao;
+import com.critc.plat.sys.dao.ISysUserLoginDao;
 import com.critc.plat.sys.model.SysUserLogin;
 import com.critc.plat.sys.vo.SysUserloginSearchVO;
 import com.critc.plat.util.page.PageUtil;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,11 +14,12 @@ import java.util.List;
  * 用户登录DAO
  */
 @Repository
-public class SysUserLoginDao extends BaseDao<SysUserLogin, SysUserloginSearchVO> {
+@Profile("dev")
+public class SysUserLoginDao extends BaseDao<SysUserLogin, SysUserloginSearchVO> implements ISysUserLoginDao {
 
     public void add(SysUserLogin sysUserLogin) {
-        String sql = "insert into t_sys_userlogin(id,user_id,login_date,login_ip,terminal,explorerType,explorerVersion)";
-        sql += " values(seq_t_sys_userlogin.nextval,:userId,:loginDate,:loginIp,:terminal,:explorerType,:explorerVersion)";
+        String sql = "insert into t_sys_userlogin(user_id,login_date,login_ip,terminal,explorerType,explorerVersion)";
+        sql += " values(:userId,:loginDate,:loginIp,:terminal,:explorerType,:explorerVersion)";
         insert(sql, sysUserLogin);
     }
 

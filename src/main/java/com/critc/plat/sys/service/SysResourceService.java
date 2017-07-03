@@ -1,6 +1,6 @@
 package com.critc.plat.sys.service;
 
-import com.critc.plat.sys.dao.SysResourceDao;
+import com.critc.plat.sys.dao.ISysResourceDao;
 import com.critc.plat.sys.model.SysResource;
 import com.critc.plat.util.string.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.util.List;
 public class SysResourceService {
 
     @Autowired
-    private SysResourceDao sysResourceDao;
+    private ISysResourceDao sysResourceDao;
 
     /**
      *

@@ -1,9 +1,9 @@
 package com.critc.plat.sys.service;
 
 import com.critc.plat.core.pub.PubConfig;
-import com.critc.plat.sys.dao.SysResourceDao;
-import com.critc.plat.sys.dao.SysRoleDao;
-import com.critc.plat.sys.dao.SysRoleresourceDao;
+import com.critc.plat.sys.dao.ISysResourceDao;
+import com.critc.plat.sys.dao.ISysRoleDao;
+import com.critc.plat.sys.dao.ISysRoleresourceDao;
 import com.critc.plat.sys.model.SysResource;
 import com.critc.plat.sys.model.SysRole;
 import com.critc.plat.sys.model.SysRoleResource;
@@ -35,13 +35,13 @@ import java.util.List;
 public class SysRoleService {
 
     @Autowired
-    private SysRoleDao sysRoleDao;
+    private ISysRoleDao sysRoleDao;
     @Autowired
-    private SysResourceDao sysResourceDao;
+    private ISysResourceDao sysResourceDao;
     @Autowired
     private PubConfig pubConfig;
     @Autowired
-    private SysRoleresourceDao sysRoleresourceDao;
+    private ISysRoleresourceDao sysRoleresourceDao;
 
     /**
      * 新增角色，同时新增对应的权限
@@ -201,7 +201,7 @@ public class SysRoleService {
      * 校验所有权限，防止不通过浏览器提交
      *
      * @param roleId 角色id
-     * @param path url路径
+     * @param path   url路径
      * @return
      */
     public boolean checkAuthority(int roleId, String path) {

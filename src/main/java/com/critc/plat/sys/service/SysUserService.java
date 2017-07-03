@@ -1,7 +1,7 @@
 package com.critc.plat.sys.service;
 
-import com.critc.plat.sys.dao.SysResourceDao;
-import com.critc.plat.sys.dao.SysUserDao;
+import com.critc.plat.sys.dao.ISysResourceDao;
+import com.critc.plat.sys.dao.ISysUserDao;
 import com.critc.plat.sys.model.SysUser;
 import com.critc.plat.sys.vo.SysUserSearchVO;
 import com.critc.plat.util.code.RandomCodeUtil;
@@ -20,9 +20,9 @@ import java.util.List;
 @Service
 public class SysUserService {
     @Autowired
-    private SysUserDao sysUserDao;
+    private ISysUserDao sysUserDao;
     @Autowired
-    private SysResourceDao sysResourceDao;
+    private ISysResourceDao sysResourceDao;
 
     /**
      * 用户新增，先判断用户名是否存在 返回2，账号已存在，返回1操作成功

@@ -1,6 +1,6 @@
 package com.critc.plat.sys.service;
 
-import com.critc.plat.sys.dao.SysLogDao;
+import com.critc.plat.sys.dao.ISysLogDao;
 import com.critc.plat.sys.model.SysLog;
 import com.critc.plat.sys.vo.SysLogSearchVO;
 import com.critc.plat.util.date.DateUtil;
@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 public class SysLogService {
     @Autowired
-    private SysLogDao sysLogDao;
+    private ISysLogDao sysLogDao;
     @Autowired
     private SysResourceService sysResourceService;
 

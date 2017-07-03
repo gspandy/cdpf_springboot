@@ -1,11 +1,13 @@
-package com.critc.plat.sys.dao;
+package com.critc.plat.sys.dao.oracle;
 
 import com.critc.plat.core.dao.BaseDao;
+import com.critc.plat.sys.dao.ISysUserDao;
 import com.critc.plat.sys.model.SysUser;
 import com.critc.plat.sys.vo.SysUserSearchVO;
 import com.critc.plat.util.model.ComboboxVO;
 import com.critc.plat.util.page.PageUtil;
 import com.critc.plat.util.string.StringUtil;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,13 +17,16 @@ import java.util.List;
  * Date  2017/6/10.
  */
 @Repository
-public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
+@Profile("prod")
+public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> implements ISysUserDao {
+    @Override
     public int add(SysUser sysUser) {
         String sql = "insert into t_sys_user(id,username,password,randomcode,status,realname,mobile,created_at,created_by,role_id)";
         sql += " values(seq_t_sys_user.nextval,:username,:password,:randomcode,1,:realname,:mobile,sysdate,:createdBy,:roleId)";
         return insertForId(sql, sysUser, "id");
     }
 
+    @Override
     public int update(SysUser sysUser) {
         String sql = "update t_sys_user set realname=:realname,role_id=:roleId,mobile=:mobile,last_modified_by=:lastModifiedBy,last_modified_at=sysdate where id=:id ";
         return update(sql, sysUser);
@@ -36,6 +41,7 @@ public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
      * @param randowmcode
      * @return
      */
+    @Override
     public int updatePass(int id, String newPass, String randowmcode) {
         String sql = "update t_sys_user set password=?,randomcode=?  where id=? ";
         return update(sql, newPass, randowmcode, id);
@@ -47,6 +53,7 @@ public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
      * @param sysUser
      * @return
      */
+    @Override
     public int updateInfo(SysUser sysUser) {
         String sql = "update t_sys_user set realname=:realname,telephone=:telephone where id=:id";
         return update(sql, sysUser);
@@ -59,16 +66,19 @@ public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
      * @param status
      * @return
      */
+    @Override
     public int updateStatus(int id, int status) {
         String sql = "update t_sys_user set status=?  where id=?";
         return update(sql, status, id);
     }
 
+    @Override
     public int delete(int id) {
         String sql = "delete from t_sys_user where id=?";
         return delete(sql, id);
     }
 
+    @Override
     public SysUser get(int id) {
         String sql = "select * from t_sys_user where id=?";
         return get(sql, id);
@@ -80,6 +90,7 @@ public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
      * @param username
      * @return
      */
+    @Override
     public SysUser getByUsername(String username) {
         String sql = "select t.*,(select name from t_sys_role where id=role_id) roleName from t_sys_user t where username=?";
         return get(sql, username);
@@ -91,6 +102,7 @@ public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
      * @param sysUserSearchVO
      * @return
      */
+    @Override
     public List<SysUser> list(SysUserSearchVO sysUserSearchVO) {
         String sql = "select t.*,(select name from t_sys_role where id=t.role_id) roleName  from t_sys_user t where 1=1 ";
         sql += createSearchSql(sysUserSearchVO);
@@ -99,6 +111,7 @@ public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
         return list(sql, sysUserSearchVO);
     }
 
+    @Override
     public List<SysUser> listAll() {
         String sql = "select t.*,(select name from t_sys_role where id=role_id) roleName  from t_sys_user t ";
         sql += " order by id asc";
@@ -111,6 +124,7 @@ public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
      * @param sysUserSearchVO
      * @return
      */
+    @Override
     public int listCount(SysUserSearchVO sysUserSearchVO) {
         String sql = "select count(*) from t_sys_user where 1=1 ";
         sql += createSearchSql(sysUserSearchVO);
@@ -139,6 +153,7 @@ public class SysUserDao extends BaseDao<SysUser, SysUserSearchVO> {
      *
      * @return
      */
+    @Override
     public List<ComboboxVO> listAllUser() {
         String sql = "select id value,username content from t_sys_user  order by id";
         return listCombobox(sql);

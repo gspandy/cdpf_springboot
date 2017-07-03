@@ -1,7 +1,9 @@
-package com.critc.plat.sys.dao;
+package com.critc.plat.sys.dao.mysql;
 
 import com.critc.plat.core.dao.BaseDao;
+import com.critc.plat.sys.dao.ISysRoleresourceDao;
 import com.critc.plat.sys.model.SysRoleResource;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.List;
  * Date  2017/6/11.
  */
 @Repository
-public class SysRoleresourceDao extends BaseDao<SysRoleResource, SysRoleResource> {
+@Profile("dev")
+public class SysRoleresourceDao extends BaseDao<SysRoleResource, SysRoleResource> implements ISysRoleresourceDao {
     /**
      * 根据角色id获取所有资源
      *
@@ -53,7 +56,7 @@ public class SysRoleresourceDao extends BaseDao<SysRoleResource, SysRoleResource
      * @param resourceId
      */
     public void addRoleResource(int roleId, int resourceId) {
-        String sql = "insert into t_sys_roleresource(id,role_id,resource_id) values(seq_t_sys_resource.nextval,?,?)";
+        String sql = "insert into t_sys_roleresource(role_id,resource_id) values(?,?)";
         update(sql, roleId, resourceId);
     }
 

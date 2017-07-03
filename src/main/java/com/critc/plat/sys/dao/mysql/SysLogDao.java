@@ -1,10 +1,12 @@
-package com.critc.plat.sys.dao;
+package com.critc.plat.sys.dao.mysql;
 
 import com.critc.plat.core.dao.BaseDao;
+import com.critc.plat.sys.dao.ISysLogDao;
 import com.critc.plat.sys.model.SysLog;
 import com.critc.plat.sys.vo.SysLogSearchVO;
 import com.critc.plat.util.page.PageUtil;
 import com.critc.plat.util.string.StringUtil;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,11 +17,12 @@ import java.util.List;
  * @author 孔垂云
  */
 @Repository
-public class SysLogDao extends BaseDao<SysLog, SysLogSearchVO> {
+@Profile("dev")
+public class SysLogDao extends BaseDao<SysLog, SysLogSearchVO> implements ISysLogDao {
 
     public int add(SysLog sysLog) {
-        String sql = "insert into t_sys_log(id,user_id,opera_date,opera_ip,module_name,opera_name,opera_url,opera_params)"
-                + " values(seq_t_sys_log.nextval,:userId,sysdate,:operaIp,:moduleName,:operaName,:operaUrl,:operaParams)";
+        String sql = "insert into t_sys_log(user_id,opera_date,opera_ip,module_name,opera_name,opera_url,opera_params)"
+                + " values(:userId,sysdate,:operaIp,:moduleName,:operaName,:operaUrl,:operaParams)";
         return insert(sql, sysLog);
     }
 
