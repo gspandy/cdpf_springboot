@@ -1,6 +1,8 @@
 package com.critc.plat;
 
 import com.critc.plat.core.pub.PubConfig;
+import com.critc.plat.sys.interceptor.AuthorityInterceptor;
+import com.critc.plat.sys.interceptor.CheckLoginInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -60,13 +63,22 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
         return converter;
     }
 
-    @Bean
-    public PubConfig pubConfig() {
-        PubConfig pubConfig = new PubConfig();
-        pubConfig.setDynamicServer(webDynamicResourceServer);
-        pubConfig.setStaticServer(webStaticResourceServer);
-        return pubConfig;
+    /**
+     * 设置拦截器，处理登录及权限控制
+     *
+     * @param registry
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 多个拦截器组成一个拦截器链
+        // addPathPatterns 用于添加拦截规则
+        // excludePathPatterns 用户排除拦截
+        // 拦截器按照声明的顺序执行
+        registry.addInterceptor(new CheckLoginInterceptor()).addPathPatterns("index.htm", "/sys/*/*");
+        registry.addInterceptor(new AuthorityInterceptor()).addPathPatterns("/sys/*/*");
+        super.addInterceptors(registry);
     }
+
 
     /**
      * TODO 设置支持上传文件
@@ -76,5 +88,13 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         return new CommonsMultipartResolver();
+    }
+
+    @Bean
+    public PubConfig pubConfig() {
+        PubConfig pubConfig = new PubConfig();
+        pubConfig.setDynamicServer(webDynamicResourceServer);
+        pubConfig.setStaticServer(webStaticResourceServer);
+        return pubConfig;
     }
 }

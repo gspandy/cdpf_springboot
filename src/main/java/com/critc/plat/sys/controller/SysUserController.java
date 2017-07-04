@@ -87,7 +87,7 @@ public class SysUserController {
         mv.addObject("listRole", sysRoleService.list());// 角色列表
         SysUser sysUser = new SysUser();
         mv.addObject("sysUser", sysUser);
-        mv.setViewName("/plat/sys/user/addTx");
+        mv.setViewName("/plat/sys/user/add");
         BackUrlUtil.setBackUrl(mv, request);// 设置返回的url
         return mv;
     }
