@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -63,6 +64,16 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
         return converter;
     }
 
+    @Bean
+    public HandlerInterceptor checkLoginInterceptor() {
+        return new CheckLoginInterceptor();
+    }
+
+    @Bean
+    public HandlerInterceptor authorityInterceptor() {
+        return new AuthorityInterceptor();
+    }
+
     /**
      * 设置拦截器，处理登录及权限控制
      *
@@ -74,8 +85,8 @@ public class WebMvcConfiguration extends WebMvcConfigurerAdapter {
         // addPathPatterns 用于添加拦截规则
         // excludePathPatterns 用户排除拦截
         // 拦截器按照声明的顺序执行
-        registry.addInterceptor(new CheckLoginInterceptor()).addPathPatterns("index.htm", "/sys/*/*");
-        registry.addInterceptor(new AuthorityInterceptor()).addPathPatterns("/sys/*/*");
+        registry.addInterceptor(checkLoginInterceptor()).addPathPatterns("index.htm", "/sys/*/*");
+        registry.addInterceptor(authorityInterceptor()).addPathPatterns("/sys/*/*");
         super.addInterceptors(registry);
     }
 

@@ -88,8 +88,8 @@
         $("#loginForm").validate({
             errorElement: "label",
             errorClass: "valiError",
-//                errorPlacement: function (error, element) {
-//                },
+            errorPlacement: function (error, element) {
+            },
             rules: {
                 username: {
                     required: true

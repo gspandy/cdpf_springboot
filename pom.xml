@@ -282,7 +282,7 @@
                     <webResources>
                         <resource>
                             <directory>profiles/${package.environment}</directory>
-                            <targetPath>WEB-INF/classes</targetPath>
+                            <targetPath>WEB-INF/classes/config</targetPath>
                             <filtering>true</filtering>
                         </resource>
                     </webResources>
